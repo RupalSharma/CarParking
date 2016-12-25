@@ -4,7 +4,7 @@ import com.rupal.carparking.car.Car;
 import com.rupal.carparking.interfaces.Slot;
 import com.rupal.carparking.interfaces.Vehicle;
 
-public class CarSlot implements Slot, Comparable {
+public class CarSlot implements Slot {
 	private int serialNumber;
 	private Car car;
 	
@@ -47,7 +47,7 @@ public class CarSlot implements Slot, Comparable {
 	}
 	
 	@Override
-	public int compareTo(Object s1) {
+	public int compareTo(Slot s1) {
 		if(this.serialNumber < ((CarSlot)s1).getSerialNumber()){
 			return -1;
 		}else if(this.serialNumber > ((CarSlot)s1).getSerialNumber()){
@@ -60,4 +60,5 @@ public class CarSlot implements Slot, Comparable {
 	public String toString(){
 		return serialNumber+"\t"+car.toString();
 	}
+
 }

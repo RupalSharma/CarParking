@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import com.rupal.carparking.exceptions.ParkingException;
 import com.rupal.carparking.exceptions.CarParkingExceptionMessage;
 import com.rupal.carparking.interfaces.Inventory;
+import com.rupal.carparking.interfaces.Slot;
 import com.rupal.carparking.slot.CarSlot;
 /**
  * This class  provides information from parking lot on base of color provided
@@ -16,7 +17,7 @@ import com.rupal.carparking.slot.CarSlot;
  */
 public class ColorInventory implements Inventory {
 
-	private HashMap<String, LinkedList<CarSlot>> colorMap;
+	private HashMap<String, LinkedList<Slot>> colorMap;
 
 	public ColorInventory() {
 		colorMap = new HashMap<>();
@@ -31,10 +32,10 @@ public class ColorInventory implements Inventory {
 	public String getSlotList(String colour) throws ParkingException {
 		StringBuilder result = new StringBuilder();
 
-		LinkedList<CarSlot> slots = colorMap.get(colour.toLowerCase());
+		LinkedList<Slot> slots = colorMap.get(colour.toLowerCase());
 		if (slots != null) {
-			for (CarSlot slot : slots) {
-				result.append(slot.getSerialNumber() + ", ");
+			for (Slot slot : slots) {
+				result.append(((CarSlot)slot).getSerialNumber() + ", ");
 			}
 			result.setLength(result.length() - 2);
 		}else{
@@ -51,10 +52,10 @@ public class ColorInventory implements Inventory {
 	 */
 	public String getRegitrationNumberList(String colour) throws ParkingException {
 		StringBuilder result = new StringBuilder();
-		LinkedList<CarSlot> slots = colorMap.get(colour.toLowerCase());
+		LinkedList<Slot> slots = colorMap.get(colour.toLowerCase());
 		if (slots != null) {
-			for (CarSlot slot : slots) {
-				result.append(slot.getCar().getRegistrationNumber() + ", ");
+			for (Slot slot : slots) {
+				result.append(((CarSlot)slot).getCar().getRegistrationNumber() + ", ");
 			}
 			result.setLength(result.length() - 2);
 		}else{
@@ -70,12 +71,12 @@ public class ColorInventory implements Inventory {
 	 */
 	@SuppressWarnings("unchecked")
 	public void addNewSlotToColorInventory(String colour, CarSlot carslot) {
-		LinkedList<CarSlot> slots = colorMap.get(colour.toLowerCase());
+		LinkedList<Slot> slots = colorMap.get(colour.toLowerCase());
 		if (slots != null) {
 			slots.add(carslot);
 			Collections.sort(slots);
 		} else {
-			slots = new LinkedList<CarSlot>();
+			slots = new LinkedList<Slot>();
 			slots.add(carslot);
 		}
 		colorMap.put(colour.toLowerCase(), slots);
@@ -89,7 +90,7 @@ public class ColorInventory implements Inventory {
 	 * @throws ParkingException
 	 */
 	public void removeSlotFromColorInventory(String colour, CarSlot carslot) throws ParkingException {
-		LinkedList<CarSlot> slots = colorMap.get(colour.toLowerCase());
+		LinkedList<Slot> slots = colorMap.get(colour.toLowerCase());
 		if (slots != null) {
 			if(slots.contains(carslot))
 				slots.remove(carslot);
